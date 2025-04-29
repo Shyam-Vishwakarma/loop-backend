@@ -1,18 +1,13 @@
 import express from "express";
-import {
-  getMoviesByCategory,
-  getMovieById,
-  getMovieCredits,
-  getSimilarMovies,
-  getMovieVideos,
-} from "../controllers/movieController";
+import * as movieController from "../controllers/movieController";
 
 const router = express.Router();
 
-router.get("/movies/:category", getMoviesByCategory);
-router.get("/movie/:movieId", getMovieById);
-router.get("/movie/:movieId/credits", getMovieCredits);
-router.get("/movie/:movieId/similar", getSimilarMovies);
-router.get("/movie/:movieId/videos", getMovieVideos);
+router.get("/movies/:category", movieController.getMoviesByCategory);
+router.get("/movie/:movieId", movieController.getMovieById);
+router.get("/movie/:movieId/credits", movieController.getMovieCredits);
+router.get("/movie/:movieId/similar", movieController.getSimilarMovies);
+router.get("/movie/:movieId/videos", movieController.getMovieVideos);
+router.get("/movie/:movieId/trailerKey", movieController.getMovieTrailerKey);
 
 export default router;
