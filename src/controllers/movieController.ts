@@ -110,3 +110,26 @@ export const getMovieVideos = async (
     next(error);
   }
 };
+
+export const getMovieTrailerKey = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { movieId } = req.params;
+  try {
+    const movieVideos = await getMovieVideosById(Number(movieId));
+    if (!movieVideos) {
+      return handleError(res, 404, "Movie videos not found");
+    }
+    const trailerKey = movieVideos.results.find(
+      (video) => video.type.toLowerCase() === "trailer"
+    )?.key;
+    if (!trailerKey) {
+      return handleError(res, 404, "Trailer not found");
+    }
+    res.status(200).json({ trailerKey });
+  } catch (error) {
+    next(error);
+  }
+};
