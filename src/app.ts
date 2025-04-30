@@ -3,7 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import movieRoutes from "./routes/movieRoutes";
 
-const allowedOrigins = (process.env.LOOP_ALLOWED_ORIGINS || "").split(",");
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || "").split(",");
 
 const app = express();
 

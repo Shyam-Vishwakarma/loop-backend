@@ -5,7 +5,7 @@ import app from "./app";
 import { validateEnv } from "./utils/validateEnv";
 
 try {
-  validateEnv(["TMDB_API_KEY", "LOOP_FRONTEND_URL"]);
+  validateEnv(["TMDB_API_KEY", "ALLOWED_ORIGINS"]);
 
   const PORT = process.env.PORT || 5000;
 
