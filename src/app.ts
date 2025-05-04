@@ -2,13 +2,20 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import movieRoutes from "./routes/movieRoutes";
-const frontendUrl = process.env.LOOP_FRONTEND_URL;
+
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || "").split(",");
 
 const app = express();
 
 app.use(
   cors({
-    origin: frontendUrl,
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
