@@ -5,6 +5,7 @@ import {
   getMovieCreditsById,
   getSimilarMoviesById,
   getMovieVideosById,
+  getMovieTrailerKey as getMovieTrailerKeyById,
 } from "../services/movieServices";
 
 const validCategories = ["now_playing", "popular", "top_rated", "upcoming"];
@@ -125,10 +126,18 @@ export const getMovieTrailerKey = async (
     const trailerKey = movieVideos.results.find(
       (video) => video.type.toLowerCase() === "trailer"
     )?.key;
-    if (!trailerKey) {
+    const trailerKey2160 = movieVideos.results.find(
+      (video) => video.type.toLowerCase() === "trailer" && video.size === 2160
+    )?.key;
+    if (trailerKey2160) {
+      res.status(200).json({ trailerKey: trailerKey2160 });
+    }
+    if (!trailerKey2160 && !trailerKey) {
       return handleError(res, 404, "Trailer not found");
     }
-    res.status(200).json({ trailerKey });
+    if (!trailerKey2160) {
+      res.status(200).json({ trailerKey });
+    }
   } catch (error) {
     next(error);
   }

@@ -25,7 +25,12 @@ export const fetchMovieById = async (
   movieId: string
 ): Promise<Movie | null> => {
   const data = await makeApiRequest(`${API_BASE_URL}/movie/${movieId}`);
-  return data ? mapResponseToMovie(data) : null;
+  const trailerKey = await getMovieTrailerKey(movieId);
+  const movieDetails = data ? mapResponseToMovie(data) : null;
+  if (movieDetails) {
+    movieDetails.trailerKey = trailerKey;
+  }
+  return movieDetails;
 };
 
 export const getMovieCreditsById = async (
@@ -47,6 +52,29 @@ export const getMovieVideosById = async (
 ): Promise<MovieVideos | null> => {
   const data = await makeApiRequest(`${API_BASE_URL}/movie/${movieId}/videos`);
   return data ? mapMovieVideos(data) : null;
+};
+
+export const getMovieTrailerKey = async (
+  movieId: string
+): Promise<string | null> => {
+  const movieVideos = await getMovieVideosById(Number(movieId));
+  if (!movieVideos) {
+    return null;
+  }
+
+  const trailerKey2160 =
+    movieVideos.results.find(
+      (video) => video.type.toLowerCase() === "trailer" && video.size === 2160
+    )?.key || null;
+  if (trailerKey2160) {
+    return trailerKey2160;
+  }
+
+  const trailerKey =
+    movieVideos.results.find((video) => video.type.toLowerCase() === "trailer")
+      ?.key || null;
+
+  return trailerKey || null;
 };
 
 axios.defaults.headers.common["Authorization"] = `Bearer ${API_KEY}`;

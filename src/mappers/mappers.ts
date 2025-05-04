@@ -44,6 +44,7 @@ export const mapResponseToMovie = (data: any): MovieDetails => {
     status: data.status,
     tagline: data.tagline,
     rating: data.vote_average,
+    trailerKey: null,
   };
 };
 

@@ -28,6 +28,7 @@ export interface MovieDetails {
   status: string;
   tagline: string;
   rating: number;
+  trailerKey: string | null;
 }
 
 export interface CastMember {
