@@ -36,7 +36,7 @@ export const mapResponseToMovie = (data: any): MovieDetails => {
     id: data.id,
     imdb_id: data.imdb_id,
     language: data.original_language,
-    title: data.original_title,
+    title: data.title,
     overview: data.overview,
     poster_path: data.poster_path ? data.poster_path : null,
     release_date: data.release_date,

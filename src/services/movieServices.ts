@@ -80,7 +80,11 @@ export const getMovieTrailerKey = async (
 axios.defaults.headers.common["Authorization"] = `Bearer ${API_KEY}`;
 const makeApiRequest = async <T>(url: string): Promise<T | null> => {
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, {
+      params: {
+        include_adult: false,
+      },
+    });
     return response.data;
   } catch (error) {
     return null;
